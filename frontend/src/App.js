@@ -7,17 +7,17 @@ function App() {
   const [blogs, setBlogs] = useState([]);
   const [content, setContent] = useState('');
 
-  useEffect(() => {
-    fetch('http://localhost:5000/api/blogs')
-      .then(res => res.json())
-      .then(data => setBlogs(data));
-  }, []);
+ useEffect(() => {
+  fetch('/api/blogs')
+    .then(res => res.json())
+    .then(data => setBlogs(data));
+}, []);
 
-  const fetchContent = (filename) => {
-    fetch(`http://localhost:5000/api/blogs/${filename}`)
-      .then(res => res.text())
-      .then(setContent);
-  };
+const fetchContent = (filename) => {
+  fetch(`/api/blogs/${filename}`)
+    .then(res => res.text())
+    .then(setContent);
+};
 
   return (
     <div className="app">
