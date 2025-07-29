@@ -13,12 +13,16 @@ pipeline {
     }
 
     stage('Install Backend Dependencies') {
-      steps {
+    steps {
         dir('backend') {
-          sh 'npm install'
+            sh '''
+                echo "===== Installing Backend Dependencies ====="
+                npm install --verbose || tail -n 20 npm-debug.log  # Output npm-debug.log in case of failure
+                echo "===== Backend Dependencies Installed ====="
+            '''
         }
-      }
     }
+}
 
     stage('Install & Build Frontend') {
       steps {
