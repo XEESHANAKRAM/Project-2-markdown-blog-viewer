@@ -4,6 +4,9 @@ pipeline {
   tools {
     nodejs 'NodeJS' // Make sure this matches your Jenkins NodeJS tool name
   }
+  environment {
+        ansible = '/usr/bin/ansible-playbook'  // Use the full path
+    }
 
   stages {
     stage('Clone Repo') {
@@ -38,7 +41,9 @@ pipeline {
     stage('Deploy with Ansible') {
       steps {
         dir('ansible') {
-          sh 'ansible-playbook -i inventory deploy.yml'
+          script{
+             sh '${ansible} -i inventory deploy.yml' 
+          }
         }
       }
     }
