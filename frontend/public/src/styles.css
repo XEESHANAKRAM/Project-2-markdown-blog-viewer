@@ -1,0 +1,6 @@
+.app {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
+  font-family: Arial;
+}

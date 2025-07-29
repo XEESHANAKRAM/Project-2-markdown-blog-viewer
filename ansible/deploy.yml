@@ -1,0 +1,12 @@
+- name: Deploy markdown-frontend
+  hosts: webservers
+  become: yes
+  tasks:
+  - name: Get markdown-frontend repository
+    copy:
+      src: frontend/build/
+      dest: /var/www/html/
+  - name: Start backend
+    shell: |
+      cd backend
+      pm2 restart app.js || pm2 start app.js
