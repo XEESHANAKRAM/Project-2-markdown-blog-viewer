@@ -1,9 +1,12 @@
 pipeline {
   agent any
+
   tools {
-        nodejs 'NodeJS' // Use the name you configured
-    }
+    nodejs 'NodeJS' // Must match the NodeJS tool name in Jenkins config
+  }
+
   stages {
+
     stage('Clone Repo') {
       steps {
         git branch: 'main', url: 'https://github.com/XEESHANAKRAM/Project-2-markdown-blog-viewer.git'
@@ -13,7 +16,11 @@ pipeline {
     stage('Build Backend') {
       steps {
         dir('backend') {
-          sh 'npm install'
+          sh '''
+            echo "===== Installing Backend Dependencies ====="
+            npm install
+            echo "===== Backend Dependencies Installed ====="
+          '''
         }
       }
     }
@@ -21,8 +28,13 @@ pipeline {
     stage('Build Frontend') {
       steps {
         dir('frontend') {
-          sh 'npm install'
-          sh 'npm run build'
+          sh '''
+            echo "===== Installing Frontend Dependencies ====="
+            npm install
+            echo "===== Building Frontend ====="
+            npm run build
+            echo "===== Frontend Build Completed ====="
+          '''
         }
       }
     }
@@ -30,7 +42,10 @@ pipeline {
     stage('Deploy with Ansible') {
       steps {
         dir('ansible') {
-          sh 'ansible-playbook -i inventory deploy.yml'
+          sh '''
+            echo "===== Running Ansible Deployment ====="
+            ansible-playbook -i inventory deploy.yml
+          '''
         }
       }
     }
